@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Note: this piece of code was originally copied from https://stackoverflow.com/questions/36590643/bash-script-to-check-if-apache-server-is-up-and-running
+# All glory to original author.
+
+# 1, Talk to BotFather at https://t.me/botfather and create a Bot.
+# 2, Create a group chat in Telegram.
+# 3, Add your bot to that group and and send a test message.
+# 4, Go to https://api.telegram.org/botYOUR:TOKEN/getUpdates -Replace YOUR:TOKEN with the token BotFather gave you.
+# 5, Search for "chat":{"id": and the negative number sequence following is the chat ID you need.
+# 6, Use CRON to run, say every 10 minutes?
+
+telegram=(-CHAT ID YOU GOT FROM API.TELEGRAM.ORG)
+
+if ! pidof apache2 > /dev/null
+then
+    # web server down, restart the server
+    echo "Server down"
+    /etc/init.d/apache2 restart > /dev/null
+    sleep 10
+
+    #checking if apache restarted or not
+    if pidof apache2 > /dev/null
+    then
+        for i in "${telegram[@]}"
+        do
+	# Replace YOUR:TOKEN with the token BotFather gave you.
+        curl -s -X POST https://api.telegram.org/botYOUR:TOKEN/sendMessage -d chat_id="$i" -d text="`echo -e '\U0001F525'` Apache was down and restarted succesfully."
+        done
+    else
+        for i in "${telegram[@]}"
+        do
+	# Replace YOUR:TOKEN with the token BotFather gave you.
+        curl -s -X POST https://api.telegram.org/botYOUR:TOKEN/sendMessage -d chat_id="$i" -d text="`echo -e '\U0001F525'` Apache was down and failed to restart. You need to start it manually."
+        done
+    fi
+fi
