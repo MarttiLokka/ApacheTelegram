@@ -3,7 +3,7 @@
 # Note: this piece of code was originally copied from https://stackoverflow.com/questions/36590643/bash-script-to-check-if-apache-server-is-up-and-running
 # All glory to original author.
 
-# 1, Talk to BotFather at https://t.me/botfather and create a Bot.
+# 1, Talk to BotFather at https://t.me/botfather and create a Bot. Start bot from the t.me link. Remember this link..
 # 2, Create a group chat in Telegram.
 # 3, Add your bot to that group and and send a test message.
 # 4, Go to https://api.telegram.org/botYOUR:TOKEN/getUpdates -Replace YOUR:TOKEN with the token BotFather gave you.
